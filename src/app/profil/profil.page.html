@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar  color="light">
+    <ion-buttons slot="start">
+      <ion-back-button>
+      </ion-back-button>
+    </ion-buttons>
+    <div class="text-right">
+      Hello  <strong>{{myData.identifiant}}</strong>
+    </div>
+
+    <button (click)="addImage()" slot="end" >
+      <ion-thumbnail > 
+        <div *ngIf="imUser">
+          <img src="{{imUser}}" title="Go to profil"> <!-- ../../assets/images/addIm.png-->
+        </div>
+        <div *ngIf="!imUser">
+          <img src="../../assets/images/addIm.png" title="Go to profil">  
+        </div>
+
+      </ion-thumbnail>
+    </button>
+  </ion-toolbar>
+  
+  
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        Identifiant
+      </ion-col>
+      <ion-col>
+        <ion-input type="text" [(ngModel)]="myData.identifiant" name="firstName"></ion-input> 
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        FirstName
+      </ion-col>
+      <ion-col>
+        <ion-input type="text" [(ngModel)]="myData.firstName" name="firstName"></ion-input> 
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        LastName
+      </ion-col>
+      <ion-col>
+        <ion-input type="text" [(ngModel)]="myData.lastName" name="lastName"></ion-input>  
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        Phone
+      </ion-col>
+      <ion-col>
+        <ion-input type="phone" [(ngModel)]="myData.phone" name="phone"></ion-input>  
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        Email
+      </ion-col>
+      <ion-col>
+        <ion-input type="email" [(ngModel)]="myData.email" name="email"></ion-input>
+      </ion-col>
+    </ion-row>
+   
+    <div class="row">
+      <button class="btn btn-success" ion-button type="submit" (click)="Update()">Update Label</button>
+    </div>
+   
+  </ion-grid>
+</ion-content>

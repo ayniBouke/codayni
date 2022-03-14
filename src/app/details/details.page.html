@@ -1,0 +1,50 @@
+<ion-header >
+  <ion-toolbar>
+    <button (click)="goProfil()">
+      <ion-thumbnail slot="start"> 
+        <img src="{{imUser}}" title="Go to profil"> 
+      </ion-thumbnail>
+    </button>
+     <br><br><br>
+  <!-- Default Searchbar -->
+  <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" 
+    (ionInput)="onInput($event)" (ionCancel)="onCancel()" >
+  </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="text-end">
+    <button class="btn btn-primary" ion-button type="submit" (click)="NewLabel()">New Label</button>
+    
+  </div>
+  <br>
+
+
+  <h1 class="text-center"> <b>Labels List</b></h1>
+  <div class="d-flex justify-content-center" *ngIf="!DataLoaded">
+    <div class="spinner-grow" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  
+  <div *ngFor="let d of this.service.allData">
+    <b> Id : </b> {{d.id}} <br>
+    <b> Title : </b> {{d.defaultValue}} <br>
+    <b> Code : </b> {{d.code}} <br>
+    <b> Date Creation:  </b> {{d.creationDate | date : "y/MM/dd" }} <br>
+    <b> Date Modification: </b> {{d.modificationDate | date : "y/MM/dd" }}  <br>
+
+    <div class="row">
+      <button class="btn btn-success" ion-button type="submit" (click)="UpdateLabel(d.id)">Update Label</button>
+      <button class="btn btn-danger" ion-button type="submit" (click)="DeleteLabel(d.id)">Delete Label</button>
+    </div>
+    <hr color="green">
+  </div>
+  <div *ngIf="!this.service.haveData" class="alert alert-warning" role="alert">
+      Aucun data de title {{myInput}}
+  </div>
+
+  <button class="btn btn-danger" ion-button type="submit" (click)="test()">Test</button>
+
+</ion-content>

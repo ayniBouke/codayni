@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="black" padding>
+  <form #form="ngForm" (ngSubmit)="login(form)">
+    <ion-grid>
+      <ion-row color="black" justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
+            <h1 class="text-center"><b>Login</b></h1>
+          </div>
+          <div padding>
+            <!--
+              <ion-item>
+              <ion-input name="Id" type="number" placeholder="Id" ngModel required></ion-input>
+            </ion-item>
+            -->
+            <ion-item class="form-control" color="blanck">
+              <ion-icon name="person-circle-outline"></ion-icon>
+              <ion-input name="userName" type="text" placeholder="User Name " [(ngModel)]="form.userName" required></ion-input>
+            </ion-item>
+            <br>
+            <ion-item class="form-control"  color="blank"> 
+              <ion-icon name="key-outline"></ion-icon>
+              <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="form.password" required></ion-input>
+            </ion-item>
+          </div>
+          <br>
+          <div padding>
+            <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">
+              <span *ngIf="!loading">Login</span>
+                <!-- Lines Small -->
+              <ion-spinner *ngIf="loading" name="lines-small" color="primary" paused="false"></ion-spinner> 
+            </ion-button>
+          </div>
+         
+
+          <div *ngIf="message != '' " padding  class="alert alert-danger" role="alert">
+            {{message}}
+          </div>
+        
+          <div padding>
+            <ion-button (click)="register()" size="large" color="secondary" expand="block">Register</ion-button>
+          </div>
+          <div>
+            <a routerLink="/reset-password/" class="text-danger"> Forget password ?</a>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form> 
+ 
+  
+</ion-content>

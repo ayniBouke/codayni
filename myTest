@@ -1,0 +1,49 @@
+phoneAuth(number: string) {   
+ return new Promise((resolve, reject) => {  
+     cfaSignIn('phone', { "phone": number }).subscribe(data => { 
+ console.log("User object : ", data);
+ resolve(data.phoneNumber); },
+ err => {
+ console.log(err);
+ reject(err);
+ });
+ });
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ const credential = firebase.auth.PhoneAuthProvider.credential(this.signUpService.verificationCode, this.code); 
+ firebase.auth().signInWithCredential(credential).then(data => {
+ console.log('data', data);this.authService.enableAccountWithPhone(this.signUpService.createUserPhone).then(data => {
+ // this.loadingControllerService.dismissLoadControl();
+ this.authService.logout = true;
+ this.toastService.presentToast(this.languageService.labelLocalization[this.labelManagementClass.YourAccountHasBeenActivated]);
+ this.loginAfterCreateAcccount();
+ }, (err) => {
+ this.loadingControllerService.dismissLoadControl();
+ });
+ }, (err) => {
+ this.codeIncorrect = false;
+ console.log(err);
+ let error = err;
+ if (error.includes('The sms verification code used to create the phone auth credential is invalid')) {
+ this.loadingControllerService.dismissLoadControl();
+ "Code Incorrect"
+ }
+ else 
+ { this.loadingControllerService.dismissLoadControl(); "err derver" } });
+
+
+
+"@ionic/angular": "^6.0.0",
+    "@ionic/storage": "^3.0.6",
+    "angularfire2": "^5.4.2",
+    "capacitor-firebase-auth": "^2.3.5",
+    "firebase": "^7.10.0",
+    "rxfire": "^6.0.0",
+	
+	https://www.javascripttuts.com/using-firebase-storage-in-ionic/

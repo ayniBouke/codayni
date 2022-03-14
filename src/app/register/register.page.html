@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button >
+      </ion-back-button>
+    </ion-buttons> 
+    
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="wiht" padding>
+  <form #form="ngForm" (ngSubmit)="login(form)">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+      </ion-row>
+
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <div text-align="center">
+          <h1>Register</h1>
+        </div>
+        <div padding>
+          <!--
+            <ion-item>
+            <ion-input name="Id" type="number" placeholder="Id" ngModel required></ion-input>
+          </ion-item>
+          -->
+          <!--First Name and Last Name-->
+          <ion-row>
+            <ion-col>
+              <ion-input name="firstName" type="text" placeholder="First Name " ngModel required>
+                <ion-icon name="person-outline"></ion-icon>
+              </ion-input>
+            </ion-col>
+            
+            <ion-col>
+              <ion-input name="lastName" type="text" placeholder="Last Name " ngModel required>
+                <ion-icon name="person-outline"></ion-icon>
+              </ion-input>
+            </ion-col>
+          </ion-row>
+          <!--Identifiant-->
+          <ion-row>
+            <ion-input name="identifiant" type="text" placeholder="Identifiant" ngModel required>
+              <ion-icon name="id-card-sharp"></ion-icon>
+            </ion-input>
+          </ion-row>
+          <!--Email and Phone-->
+          <ion-row>
+            <ion-col>
+              <ion-input name="email" type="email" placeholder="Email" ngModel required>
+                <ion-icon name="mail-outline"></ion-icon>
+              </ion-input>
+            </ion-col>
+            
+            <ion-col>
+              <ion-input name="phone" type="phone" placeholder="Phone " ngModel required>
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+              </ion-input>
+            </ion-col>
+          </ion-row>
+          <!--Password and confrmed -->
+          <ion-row>
+            <ion-col>
+              <ion-input name="password" type="password" placeholder="Password" ngModel required>
+                <ion-icon name="key-outline"></ion-icon>
+              </ion-input>
+            </ion-col>
+            
+            <ion-col>
+              <ion-input name="confPassword" type="password" placeholder="Confirm Password" ngModel required>
+                <ion-icon name="key-outline"></ion-icon>
+              </ion-input>
+            </ion-col>
+          </ion-row> 
+         
+        </div>
+       
+        <div padding>
+            <ion-button size="large" type="submit" [disabled]="form.invalid || form.value['password'] != form.value['confPassword'] " color="success" expand="block">
+            <span *ngIf="!loading">Register</span>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf="loading" class="visually-hidden">Loading...</span>
+          </ion-button>
+        </div>
+       
+      </ion-col>
+    </ion-grid>
+  </form>
+</ion-content>

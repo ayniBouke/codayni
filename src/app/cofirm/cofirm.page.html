@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>cofirm</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div class="text-center">
+  <h1> <b>Confirmation</b> </h1>
+</div>
+<br><br>
+
+
+
+<ion-fab vertical="top" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<!-- Lines Small -->
+<ion-spinner name="lines-small" color="primary" paused="false"></ion-spinner>
+
+<div class="input-group mb-3">
+  <ion-input type="text" class="form-control" [(ngModel)]="code"  placeholder="code confirm" > </ion-input>
+  <button class="btn btn-secondary" type="button" id="button-addon2" (click)="confirm()" [disabled]="code == '' ">
+    Ok
+  </button>
+</div>
+
+</ion-content>

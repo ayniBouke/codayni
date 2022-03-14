@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar> 
+    <ion-buttons slot="start">
+      <ion-back-button >
+      </ion-back-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form (ngSubmit)="logForm()">
+    <h1 class="text-center"> Label Form </h1>
+    <ion-item>
+      <ion-label>Code</ion-label>
+      <ion-input type="text" [(ngModel)]="label.code" name="code"></ion-input>
+     
+    </ion-item>
+    <ion-item>
+      <ion-label>DefaultValue</ion-label>
+      <ion-input [(ngModel)]="label.defaultValue" name="defaultValue"></ion-input>
+    </ion-item>
+  
+    <div class="row">
+      
+      <button class="btn btn-primary" ion-button type="submit" block>{{btn_txt}}</button>
+    </div>
+    
+  </form>
+
+  
+  
+</ion-content>

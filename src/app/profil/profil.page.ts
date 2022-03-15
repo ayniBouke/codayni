@@ -71,6 +71,7 @@ export class ProfilPage implements OnInit {
   addImage(){
     this.router.navigate(['/test/'])
   }
+  
   Update(){
     this.alertCtrl.create({
       header: 'Alert Update',

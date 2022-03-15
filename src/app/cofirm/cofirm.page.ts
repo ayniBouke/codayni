@@ -22,16 +22,16 @@ export class CofirmPage implements OnInit {
     this.code = '';
   }
 
-  confirm(){
+  async confirm(){
     
     const credential = firebase.auth.PhoneAuthProvider.credential(this.userService.verificationCode, this.code);
     if(!credential){
-      console.log("credential");
+      console.log("No credential");
       
     }else{
-      console.log("No credential");
+      console.log("credential");
     }
-    firebase.auth().signInWithCredential(credential).then(data => {
+    await firebase.auth().signInWithCredential(credential).then(data => {
       console.log('data', data);
       this.userService.activateUser(this.userService.identification);
       // this.authService.enableAccountWithPhone(this.signUpService.createUserPhone).then(data => {

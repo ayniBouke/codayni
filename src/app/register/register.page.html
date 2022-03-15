@@ -28,54 +28,71 @@
           <div *ngIf="phoneRepeat" padding  class="alert alert-danger" role="alert">
              Phone repeat , Have you a compte?
           </div>
+
+          <!--Img-->
+          <div >
+            <ion-input class="im" name="image" type="file" (change)="onChange($event)" ngModel required>
+               
+            </ion-input>
+           
+          </div>
           <!--First Name and Last Name-->
           <ion-row>
             <ion-col>
               <ion-input name="firstName" type="text" placeholder="First Name " ngModel required>
-                <ion-icon name="person-outline"></ion-icon>
+                <ion-icon slot="start" name="person-outline"></ion-icon>
               </ion-input>
             </ion-col>
             
             <ion-col>
               <ion-input name="lastName" type="text" placeholder="Last Name " ngModel required>
-                <ion-icon name="person-outline"></ion-icon>
+                <ion-icon slot="start" name="person-outline"></ion-icon>
               </ion-input>
             </ion-col>
           </ion-row>
           <!--Identifiant-->
           <ion-row>
             <ion-input name="identifiant" type="text" placeholder="Identifiant" ngModel required>
-              <ion-icon name="id-card-sharp"></ion-icon>
+              <ion-icon slot="start" name="id-card-sharp"></ion-icon>
             </ion-input>
           </ion-row>
           <!--Email and Phone-->
           <ion-row>
             <ion-col>
               <ion-input name="email" type="email" placeholder="Email" ngModel required>
-                <ion-icon name="mail-outline"></ion-icon>
+                <ion-icon slot="start" name="mail-outline"></ion-icon>
               </ion-input>
             </ion-col>
             
             <ion-col>
               <ion-input name="phone" type="phone" placeholder="Phone " ngModel required>
-                <ion-icon name="phone-portrait-outline"></ion-icon>
+                <ion-icon slot="start" name="phone-portrait-outline"></ion-icon>
               </ion-input>
             </ion-col>
           </ion-row>
           <!--Password and confrmed -->
           <ion-row>
             <ion-col>
-              <ion-input name="password" type="password" placeholder="Password" ngModel required>
-                <ion-icon name="key-outline"></ion-icon>
+              <ion-input name="password" type="{{Password}}" placeholder="Password" ngModel required>
+                <ion-icon slot="start" name="key-outline"></ion-icon>
+               
               </ion-input>
             </ion-col>
             
             <ion-col>
-              <ion-input name="confPassword" type="password" placeholder="Confirm Password" ngModel required>
-                <ion-icon name="key-outline"></ion-icon>
+              
+              <ion-input name="confPassword" type="{{Password}}" placeholder="Confirm Password" ngModel required>
+                <ion-icon slot="start" name="key-outline"></ion-icon> 
               </ion-input>
             </ion-col>
+            
           </ion-row> 
+          <ion-row>
+            <ion-col>
+              <ion-checkbox name="cheMe" (click)="toggleShow()"></ion-checkbox>
+              <ion-label>   Show password</ion-label>
+            </ion-col>
+          </ion-row>
          
         </div>
        

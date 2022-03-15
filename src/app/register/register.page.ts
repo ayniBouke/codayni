@@ -6,6 +6,9 @@ import { environment } from 'src/environments/environment';
 import { cfaSignIn, cfaSignInPhone, cfaSignInPhoneOnCodeReceived, cfaSignInPhoneOnCodeSent } from 'capacitor-firebase-auth';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import * as firebase from 'firebase';
+import { Media } from '../models/Media';
+import { MediaService } from '../services/media.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -18,17 +21,40 @@ export class RegisterPage implements OnInit {
   form : User;
 
   phoneRepeat : boolean = false;
+  Password = 'password';
+  showPassword = false;
   //recaptchaVerifier:firebase.auth.RecaptchaVerifier;
 
+  media : Media =  {
+    serverId : 0, 
+    code : "", 
+    link : "",
+    name : "",
+    path : "",
+    creationDate : null ,
+    modificationDate : null,
+    type : "" // MediaType Type
+  }; 
+  
+  imgUrl ="";
+  slectFile : any;
+  uploading : boolean ;
+  uploaded : boolean ;
+  
   constructor(private userService : UserService,
     private router: Router, 
-    private alertCtrl: AlertController) { 
-      
+    private alertCtrl: AlertController,
+    private mediaService : MediaService
+    ){ 
+      this.uploading = false;
+      this.uploaded = false;
+
       cfaSignInPhoneOnCodeSent().subscribe(
         verificationId => 
         {
           this.userService.verificationCode = verificationId;
           //console.log("Yesssssssssssssssssssssssssssssssssssssssssssssss");
+          this.router.navigate(['/confirm/']);
         },
         //err => console.log("Nooooooooooooooooooooooooooooooooooooooooooooooo")
         
@@ -49,8 +75,100 @@ export class RegisterPage implements OnInit {
   }
 
 
-  
+  //Add Img
+  addImg(){
+    console.log("Click Add");
+    
+  }
+  onChange($event){
+    this.slectFile = $event.target.files;
+    console.log("Get File : ", this.slectFile  );
+    
+  }
+  async uploadImage(file) : Promise<any> { 
+    console.log("Name file ", file[0].name);
+    console.log(" file ", file[0]);
+    let ext = file[0].name.split('.').pop();
+    console.log("Name file Extention ", ext);
+    let id = new Date().toString(); 
+    const task = await firebase.storage().ref('Profils').child(id).put(file[0]); 
+    return task.ref.getDownloadURL();
+  }
+  typeFile(file){ 
+    let exten = file[0].name.split('.').pop();
+    const listImages = ["PNG", "png", "jpg","JPG"];
+    const listPdfs = ["pdf", "PDF"];
+    const listDocuments = ["txt", "TXT", "docx", "doc"];
 
+    if(listImages.includes(exten)){
+      return "Image";
+    }
+    else if(listPdfs.includes(exten)){
+      return "PDF";
+    }
+    else if(listDocuments.includes(exten)){
+      return "Documents";
+    }
+    else{
+      return "Videos";
+    }
+  }
+  async addMedia(idnt : string){ 
+    this.uploading = true;
+    await this.uploadImage(this.slectFile).then(
+      data => {
+        console.log("Type File : ", this.typeFile(this.slectFile));
+        console.log("Url data : ", data);
+        this.imgUrl = data.toString();
+        this.media.name = this.slectFile[0].name.toString();
+        this.media.link = data.toString();
+        this.media.type = this.typeFile(this.slectFile);
+        console.log("Link ", this.media.link);
+        
+        //this.media.path = data;
+        var result = this.mediaService.AddMediaByIdUser(this.media, idnt)
+        if(result != null){
+          console.log("this.mediaService.AddMedia(this.media) " , result);
+          this.uploaded = true;
+          this.uploading = false;
+        }
+        this.uploaded = true;
+      },
+      err =>{
+        this.uploading = false;
+        this.uploaded = false;
+      }
+    );
+    console.log("Url Img : ", this.imgUrl);
+    this.uploading = false;
+    
+    //console.log(this.myForm.get('firstName')); 
+  }
+  returnMedia(){ 
+    let media : Media;
+    this.uploadImage(this.slectFile).then(
+      data => {
+        console.log("Type File : ", this.typeFile(this.slectFile));
+        console.log("Url data : ", data);
+        this.imgUrl = data.toString();
+        this.media.name = this.slectFile[0].name.toString();
+        this.media.link = data.toString();
+        this.media.type = this.typeFile(this.slectFile);
+        console.log("Link ", this.media.link);
+        media = this.media;
+      },
+      err =>{
+        media = null;
+      }
+    );
+    return  this.media;
+  }
+  // show or hidde password
+  toggleShow() {
+    this.showPassword = !this.showPassword;
+    //this.input.type = this.showPassword ? 'text' : 'password';
+    this.Password = this.showPassword ? 'text' : 'password';
+  }
 
   ngOnInit() {
     console.log("code id : ", this.userService.verificationCode);
@@ -70,13 +188,14 @@ export class RegisterPage implements OnInit {
       creationDate : null ,
       modificationDate : null ,
       isActivated : false ,
-      settingServerId : 5,
-      mediaServerId : 0,
+      settingServerId : 5, 
+      //media : this.returnMedia(),
+      mediaServerId : null,
       type: 0,
       userLoginType: 1
     }
     console.log("Form ", this.form);
-    this.userService.getUserByIdent(form.value['phone']).subscribe(
+    await this.userService.getUserByIdent(form.value['phone']).subscribe(
       (user : User) =>{
         if(user && user.phone){
           this.phoneRepeat = true;
@@ -86,14 +205,15 @@ export class RegisterPage implements OnInit {
         else{
           this.phoneRepeat = false;
           this.userService.register(this.form).subscribe(
-            result => {
+            result => { 
               this.userService.identification = form.value['identifiant'];
-              form.reset();
+              this.addMedia(this.userService.identification);
               console.log(result);
               this.form = form.value;
               console.log("Form ", this.form);
              this.phoneAuth(form.value['phone']);
-             this.router.navigate(['/confirm/']); 
+             //this.router.navigate(['/confirm/']); 
+              //form.reset();
             },
             err => console.log(err)
           );

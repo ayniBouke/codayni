@@ -47,6 +47,31 @@ export class MediaService {
     );
   }
   
+  async AddMediaByIdUser(data : Media, identifiant : string){ 
+    console.log("AddData");
+    
+    await this.http.post(config.serviceBase + 'api/medias/add', data  ).subscribe(
+      (media : Media) =>{
+        console.log("Get media ", media) 
+        this.userService.getUserByIdent(identifiant).subscribe(
+          (user : User) => {
+            console.log("Get user  ", user) 
+            //user.lastName = user.lastName + " updated";
+            user.media = media;
+            user.mediaServerId = media.serverId;
+            //user.mediaServerId = 18;
+            this.userService.update(user).subscribe(
+              upUser => console.log("User updated ", upUser)  ,
+              err => console.log("User not update err ", err) 
+            );
+          },
+          err => {
+            console.log("Get user err ", err)  
+          }
+        )
+      }
+    );
+  }
 
   deleteMedia(id : number) {
     return this.http.delete<Media>(config.serviceBase + 'api/medias/' + id );

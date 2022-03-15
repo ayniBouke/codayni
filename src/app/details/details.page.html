@@ -20,6 +20,15 @@
   </div>
   <br>
 
+  <!-- Custom Refresher Content -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>  
 
   <h1 class="text-center"> <b>Labels List</b></h1>
   <div class="d-flex justify-content-center" *ngIf="!DataLoaded">

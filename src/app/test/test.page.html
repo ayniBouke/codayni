@@ -30,16 +30,21 @@
             </ion-col>
           </ion-row>
         </div>
-        <div padding>
+        <div  *ngIf="!uploading" padding>
           <ion-button size="large" type="submit" [disabled]="form.invalid" color="success" expand="block">
             Upload
           </ion-button>
         </div> 
+
+        <div *ngIf="uploading && !uploaded">
+          <ion-progress-bar value="0.3" buffer="0.7"></ion-progress-bar>
+        </div>
       </ion-col>
     </ion-grid>
-  </form>
-  
-  <div *ngIf="imUploaded" >
+  </form> 
+ 
+  <div *ngIf="uploaded" >
     <img src="{{imgUrl}}" >
   </div>
+
 </ion-content>

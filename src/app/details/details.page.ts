@@ -25,6 +25,8 @@ export class DetailsPage implements OnInit {
     private alertCtrl: AlertController, private userService : UserService,
     private mediaService : MediaService
     ) {
+      console.log("this Constrctor details");
+      
     //var x =this.btn.id;
     this.myData = this.service.allData;
     this.service.getDetails().subscribe(
@@ -50,6 +52,16 @@ export class DetailsPage implements OnInit {
 
   }
   
+  //Refrech
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+  //Test
   test(){
     this.router.navigate(['/test/']);
   }

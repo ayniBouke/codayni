@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content color="black" padding>
+
   <form #form="ngForm" (ngSubmit)="login(form)">
     <ion-grid>
       <ion-row color="black" justify-content-center>
@@ -18,14 +19,20 @@
               <ion-input name="Id" type="number" placeholder="Id" ngModel required></ion-input>
             </ion-item>
             -->
+            <!-- User Name -->
             <ion-item class="form-control" color="blanck">
-              <ion-icon name="person-circle-outline"></ion-icon>
+              <ion-icon slot="start" name="person-circle-outline"></ion-icon>
               <ion-input name="userName" type="text" placeholder="User Name " [(ngModel)]="form.userName" required></ion-input>
             </ion-item>
             <br>
+             <!-- Password -->
             <ion-item class="form-control"  color="blank"> 
-              <ion-icon name="key-outline"></ion-icon>
-              <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="form.password" required></ion-input>
+              <ion-icon name="key-outline" slot="start"></ion-icon>
+              <a slot="end" class="type-toggle" (click)="toggleShow()">
+                <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+                <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+              </a>
+              <ion-input name="password" type="{{Password}}" placeholder="Password" [(ngModel)]="form.password" required></ion-input>
             </ion-item>
           </div>
           <br>
@@ -52,6 +59,6 @@
       </ion-row>
     </ion-grid>
   </form> 
- 
+  
   
 </ion-content>

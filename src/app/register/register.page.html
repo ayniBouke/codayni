@@ -25,6 +25,9 @@
             <ion-input name="Id" type="number" placeholder="Id" ngModel required></ion-input>
           </ion-item>
           -->
+          <div *ngIf="phoneRepeat" padding  class="alert alert-danger" role="alert">
+             Phone repeat , Have you a compte?
+          </div>
           <!--First Name and Last Name-->
           <ion-row>
             <ion-col>

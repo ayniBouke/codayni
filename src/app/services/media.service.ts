@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { config } from '../app.module';
 import { Media } from '../models/Media';
+import { User } from '../models/User';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -20,16 +21,19 @@ export class MediaService {
     return this.http.get<Media>(config.serviceBase +'api/medias/' + id );
   }
   //api/medias/add
-  AddMedia(data : Media){ 
+  async AddMedia(data : Media){ 
     console.log("AddData");
     
-    this.http.post(config.serviceBase + 'api/medias/add', data  ).subscribe(
-      (media : any) =>{
+    await this.http.post(config.serviceBase + 'api/medias/add', data  ).subscribe(
+      (media : Media) =>{
         console.log("Get media ", media) 
         this.userService.getUserByIdent(this.userService.identification).subscribe(
-          (user : any) => {
+          (user : User) => {
             console.log("Get user  ", user) 
+            //user.lastName = user.lastName + " updated";
+            user.media = media;
             user.mediaServerId = media.serverId;
+            //user.mediaServerId = 18;
             this.userService.update(user).subscribe(
               upUser => console.log("User updated ", upUser)  ,
               err => console.log("User not update err ", err) 

@@ -80,7 +80,12 @@ export class InsertPage implements OnInit {
     console.log(new Date());
     if (this.userService.isLogin) {
       await this.serviceService.addLabel(this.label).subscribe(
-        (data : any) => this.serviceService.allData.push(data)
+        (data : any) => {
+          //this.serviceService.allData.push(data)
+          this.serviceService.getDetails().subscribe(
+            (data : Label[]) => this.serviceService.allData = data
+          )
+        }
       );
       this.navController.navigateRoot("details");
     }

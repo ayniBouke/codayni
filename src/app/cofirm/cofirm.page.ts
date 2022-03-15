@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
 export class CofirmPage implements OnInit {
 
   loading : boolean = false;
-  code : string = '';
+  code : string = ''; 
   constructor(private userService:UserService,private router: Router) { }
 
   ngOnInit() {
@@ -21,7 +21,6 @@ export class CofirmPage implements OnInit {
     console.log("confirm++++++++++++++++++ ", this.code); 
     this.code = '';
   }
-
 
   confirm(){
     

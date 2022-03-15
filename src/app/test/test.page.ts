@@ -28,13 +28,18 @@ export class TestPage implements OnInit {
   };
   filesCollection: any ;
   
-  imUploaded : boolean =false;
   imgUrl = "https://firebasestorage.googleapis.com/v0/b/smpnt-projects.appspot.com/o/Profils%2FFri%20Mar%2011%202022%2010%3A07%3A25%20GMT%2B0100%20(Central%20European%20Standard%20Time)?alt=media&token=787d5dea-405f-400d-b636-6561d6dac11c";
   
+  uploading : boolean ;
+  uploaded : boolean ;
+
   constructor(
     private mediaService : MediaService
     //private afStorage: FirebaseStorage 
-    ) { }
+    ) { 
+      this.uploading = false;
+      this.uploaded = false;
+    }
 
   ngOnInit() {
     this.mediaService.getMedias().subscribe(
@@ -67,11 +72,11 @@ export class TestPage implements OnInit {
     })
   }
   async upload(){ 
+    this.uploading = true;
     await this.uploadImage(this.slectFile).then(
       data => {
         console.log("Type File : ", this.typeFile(this.slectFile));
         console.log("Url data : ", data);
-        this.imUploaded = true;
         this.imgUrl = data.toString();
         this.media.name = this.slectFile[0].name.toString();
         this.media.link = data.toString();
@@ -79,10 +84,21 @@ export class TestPage implements OnInit {
         console.log("Link ", this.media.link);
         
         //this.media.path = data;
-        this.mediaService.AddMedia(this.media);
+        var result = this.mediaService.AddMedia(this.media)
+        if(result != null){
+          console.log("this.mediaService.AddMedia(this.media) " , result);
+          this.uploaded = true;
+          this.uploading = false;
+        }
+        this.uploaded = true;
+      },
+      err =>{
+        this.uploading = false;
+        this.uploaded = false;
       }
     );
     console.log("Url Img : ", this.imgUrl);
+    this.uploading = false;
     
     //console.log(this.myForm.get('firstName')); 
   }

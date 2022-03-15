@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ContentChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonInput } from '@ionic/angular';
 import { AyniServiceService } from '../services/ayni-service.service';
 import { UserService } from '../services/user.service';
 //import { Storage } from '@ionic/storage';
@@ -14,11 +15,17 @@ export class LoginPage implements OnInit {
   message : string = "";
   loading : boolean = false;
 
+  showPassword = false;
+  @ContentChild(IonInput) input: IonInput;
+
+  Password = 'password';
+
   constructor(private authService : AyniServiceService, 
     private router : Router,
     private userService : UserService,
     //private storage: Storage
   ) { }
+
 
   form : any;
   ngOnInit() {
@@ -29,6 +36,12 @@ export class LoginPage implements OnInit {
     console.log(this.userService.isLogin);
     
   }
+  toggleShow() {
+    this.showPassword = !this.showPassword;
+    //this.input.type = this.showPassword ? 'text' : 'password';
+    this.Password = this.showPassword ? 'text' : 'password';
+  }
+
   register(){
     this.router.navigate(['/register/']);
   }

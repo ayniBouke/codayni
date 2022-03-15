@@ -34,7 +34,7 @@ export class UserService {
   register(user : User){
     return this.httpClient.post(config.serviceBase + 'api/users/' , user);
   }
-  update(user : any){
+  update(user : User){
     return this.httpClient.post(config.serviceBase + 'api/users/update/' , user);
   }
   put(user : any){

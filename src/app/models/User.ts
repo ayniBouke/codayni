@@ -1,3 +1,5 @@
+import { Media } from "./Media";
+
 export class User {
     serverId : number;
     firstName : string;
@@ -11,7 +13,8 @@ export class User {
     modificationDate : Date;
     isActivated : boolean;
     settingServerId : number =1;
-    mediaServerId : number;
+    mediaServerId : number = 0;
+    media? : Media;
     type: number;
     userLoginType: number
 }

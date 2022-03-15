@@ -17,6 +17,7 @@ export class RegisterPage implements OnInit {
   loading : boolean = false;
   form : User;
 
+  phoneRepeat : boolean = false;
   //recaptchaVerifier:firebase.auth.RecaptchaVerifier;
 
   constructor(private userService : UserService,
@@ -75,21 +76,32 @@ export class RegisterPage implements OnInit {
       userLoginType: 1
     }
     console.log("Form ", this.form);
-   
-    this.userService.register(this.form).subscribe(
-      result => {
-        this.userService.identification = form.value['identifiant'];
-        form.reset();
-        console.log(result);
-        
-      },
-      err => console.log(err)
+    this.userService.getUserByIdent(form.value['phone']).subscribe(
+      (user : User) =>{
+        if(user && user.phone){
+          this.phoneRepeat = true;
+          console.log("Have acompt ");
+          //form.reset();
+        }
+        else{
+          this.phoneRepeat = false;
+          this.userService.register(this.form).subscribe(
+            result => {
+              this.userService.identification = form.value['identifiant'];
+              form.reset();
+              console.log(result);
+              this.form = form.value;
+              console.log("Form ", this.form);
+             this.phoneAuth(form.value['phone']);
+             this.router.navigate(['/confirm/']); 
+            },
+            err => console.log(err)
+          );
+        }
+      }
     );
-    
-    this.form = form.value;
-    console.log("Form ", this.form);
-   await this.phoneAuth(form.value['phone']);
-   this.router.navigate(['/confirm/']); 
+   
+   
   }
 
 

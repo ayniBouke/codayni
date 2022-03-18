@@ -5,7 +5,7 @@
       </ion-back-button>
     </ion-buttons> 
     
-    <ion-title>Register</ion-title>
+    <ion-title >Register</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,9 +16,7 @@
       </ion-row>
 
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <div text-align="center">
-          <h1>Register</h1>
-        </div>
+         
         <div padding>
           <!--
             <ion-item>
@@ -30,12 +28,19 @@
           </div>
 
           <!--Img-->
-          <div >
-            <ion-input class="im" name="image" type="file" (change)="onChange($event)" ngModel required>
-               
-            </ion-input>
-           
-          </div>
+          <ion-card-subtitle>
+            <div class="flex">
+              <div class="img-box">
+                <img *ngIf="this.mediaService.captureDataUrl" src="{{this.mediaService.captureDataUrl}}" alt="" srcset="">
+                <div><img [hidden]="!this.mediaService.showIcon" src="../../assets/images/userIm.png">
+                  <div class="camera" slot="end">
+                    <ion-icon name="camera" (click)="selectImage()"></ion-icon>
+                  </div></div>
+                
+              </div>
+              
+            </div>
+          </ion-card-subtitle>
           <!--First Name and Last Name-->
           <ion-row>
             <ion-col>
@@ -107,4 +112,9 @@
       </ion-col>
     </ion-grid>
   </form>
+
+   <!--Img-->
+   <button class="im" (click)="tstCamera()">
+    Get Image
+   </button>
 </ion-content>

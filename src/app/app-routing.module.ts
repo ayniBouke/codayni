@@ -50,6 +50,15 @@ const routes: Routes = [
     path: 'test',
     loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   },
+  {
+    path: 'upload-image',
+    loadChildren: () => import('./upload-image/upload-image.module').then( m => m.UploadImagePageModule)
+  },
+  {
+    path: 'upload-image2',
+    loadChildren: () => import('./pages/upload-image/upload-image.module').then( m => m.UploadImagePageModule)
+  },
+
  
 ];
 

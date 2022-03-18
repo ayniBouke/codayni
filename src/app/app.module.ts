@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; 
 //import { IonicStorageModule } from '@ionic/storage';
 
 //import { AngularFireModule } from 'angularfire';
@@ -21,9 +20,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptorService } from './services/oauth-interceptor';
 import { environment } from 'src/environments/environment';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { StatusBar } from '@capacitor/status-bar';
 
+import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Camera } from '@ionic-native/Camera/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 export const config = {
-  serviceBase: "http://192.168.1.240:1007/",
+  serviceBase: "http://192.168.43.35:1007/",
   clientId: 'market-place',
   clientSecret: 'Hmd123'
 }
@@ -34,8 +38,8 @@ export const config = {
   entryComponents: [],
   imports: [BrowserModule, FormsModule, IonicModule.forRoot(),ReactiveFormsModule, AppRoutingModule, HttpClientModule
   ], 
-  providers: [
-    //Base64,
+  providers: [  
+    Camera, File, ImagePicker, 
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

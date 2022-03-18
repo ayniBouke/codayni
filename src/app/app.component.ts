@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular'; 
 import * as firebase from 'firebase'; 
 import { environment } from 'src/environments/environment';
 @Component({
@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent {
 
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform) { 
 
     firebase.initializeApp(environment.firebaseConfig);     
     this.platform.backButton.subscribeWithPriority(10, () => {

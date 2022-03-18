@@ -23,13 +23,13 @@ export class ServiceService {
 
   getDetails() {
     //this.allData = this.http.get<any[]>(this.getApiUrl);
-    return this.http.get(this.getApiUrl );
+    return this.http.get(config.serviceBase +'api/labels/');
   }
   geTitle(title : string) {
     var listData = [];
     this.haveData = false;
     //this.allData = this.http.get<any[]>(this.getApiUrl);
-    this.http.get(this.getApiUrl ).subscribe(
+    this.http.get(config.serviceBase +'api/labels/' ).subscribe(
       data =>{
         var i = 0;
         console.log("Data service ", data);
@@ -50,7 +50,7 @@ export class ServiceService {
     this.allData = listData;
   }
   getDetail(id : number) {
-    return this.http.get<Label>(this.getApiUrl + id );
+    return this.http.get<Label>(config.serviceBase +'api/labels/' + id );
   }
   addLabel(data : Label){ 
     console.log("Data service object : ", data);
@@ -58,6 +58,6 @@ export class ServiceService {
   }
 
   delete(id : number) {
-    return this.http.delete<Label>(this.getApiUrl + id );
+    return this.http.delete<Label>(config.serviceBase +'api/labels/' + id );
   }
 }

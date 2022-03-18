@@ -1,18 +1,18 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core'; 
-import { File } from '@ionic-native/file/ngx'; 
-import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import { NavController } from '@ionic/angular';
+
+import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { config } from '../app.module';
+import { File } from '@ionic-native/file/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
 import { Media } from '../models/Media';
-import { User } from '../models/User';
-import { UserService } from './user.service';
+import { config } from '../app.module';
+import { HttpClient } from '@angular/common/http';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class MediaService {
 
   public captureDataUrl: any = '';
@@ -22,83 +22,16 @@ export class MediaService {
   public lisence: Media = new Media();
   public avatar: Media = new Media();
 
-  constructor(private http : HttpClient, 
-    private userService : UserService,
-    private camera: Camera,
-    private file: File,
-    private ImagePicker: ImagePicker,
+  constructor(
+    public camera: Camera,
+    public file: File,
+    public ImagePicker: ImagePicker,
     private httpClient: HttpClient,
-    private navController: NavController 
-    ) { }
-
-  getMedias() {
-    //this.allData = this.http.get<any[]>(this.getApiUrl);
-    return this.http.get(config.serviceBase + 'api/medias/');
-  }
-  
-  getMedia(id : number) {
-    return this.http.get<Media>(config.serviceBase +'api/medias/' + id );
-  }
-  //api/medias/add
-  async AddMedia(data : Media){ 
-    console.log("AddData");
-    
-    await this.http.post(config.serviceBase + 'api/medias/add', data  ).subscribe(
-      (media : Media) =>{
-        console.log("Get media ", media) 
-        this.userService.getUserByIdent(this.userService.identification).subscribe(
-          (user : User) => {
-            console.log("Get user  ", user) 
-            //user.lastName = user.lastName + " updated";
-            user.media = media;
-            user.mediaServerId = media.serverId;
-            //user.mediaServerId = 18;
-            this.userService.update(user).subscribe(
-              upUser => console.log("User updated ", upUser)  ,
-              err => console.log("User not update err ", err) 
-            );
-          },
-          err => {
-            console.log("Get user err ", err)  
-          }
-        )
-      }
-    );
-  }
-  
-  async AddMediaByIdUser(data : Media, identifiant : string){ 
-    console.log("AddData");
-    
-    await this.http.post(config.serviceBase + 'api/medias/add', data  ).subscribe(
-      (media : Media) =>{
-        console.log("Get media ", media) 
-        this.userService.getUserByIdent(identifiant).subscribe(
-          (user : User) => {
-            console.log("Get user  ", user) 
-            //user.lastName = user.lastName + " updated";
-            user.media = media;
-            user.mediaServerId = media.serverId;
-            //user.mediaServerId = 18;
-            this.userService.update(user).subscribe(
-              upUser => console.log("User updated ", upUser)  ,
-              err => console.log("User not update err ", err) 
-            );
-          },
-          err => {
-            console.log("Get user err ", err)  
-          }
-        )
-      }
-    );
+    public navController: NavController,
+  ) {
+    // firebase.initializeApp(firebaseConfig);
   }
 
-  deleteMedia(id : number) {
-    return this.http.delete<Media>(config.serviceBase + 'api/medias/' + id );
-  }
-
-
-  //Media
-  
   uploadIUmage(captureDataUrl, name, firebaseStorageFile) {
 
 
@@ -115,12 +48,13 @@ export class MediaService {
 
         // Do something here when the data is succesfully uploaded!
         this.nameFile = snapshot.ref.name;
+        this.avatar.name = snapshot.ref.name;
         snapshot.ref.getDownloadURL().then((downloadURL) => {
           console.log('image url : ');
 
+          this.avatar.link = downloadURL;
           console.log(downloadURL);
-          this.pictureLink = downloadURL;
-
+ 
           resolve(downloadURL);
 
         });
@@ -156,9 +90,7 @@ export class MediaService {
       });
   }
 
-  getImageUsingCamera() {
-
-
+  getImageUsingCamera() { 
     const cameraOptions: CameraOptions = {
       quality: 100,
       targetHeight: 600,
@@ -224,4 +156,5 @@ export class MediaService {
     console.log("Picture Link : ",link);
     this.navController.navigateRoot(['profile-picture']);
   }
+
 }

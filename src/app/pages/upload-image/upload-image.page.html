@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>uploadImage</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card-subtitle>
+    <div class="flex">
+      <div class="img-box">
+        <img *ngIf="this.mediaService.captureDataUrl" src="{{this.mediaService.captureDataUrl}}" alt="" srcset="">
+        <div><img [hidden]="!this.mediaService.showIcon" src="../../assets/images/userIm.png">
+          <div class="camera" slot="end">
+            <ion-icon name="camera" (click)="selectImage()"></ion-icon>
+          </div></div>
+        
+      </div>
+      
+    </div>
+  </ion-card-subtitle>
+
+  <ion-button (click)="addImageToFirebase()"></ion-button>
+</ion-content>

@@ -1,10 +1,16 @@
 <ion-header >
   <ion-toolbar color="secondary">
-    <button (click)="goProfil()">
-      <ion-thumbnail slot="start"> 
+    <ion-buttons>
+      <ion-menu-button slot="start" menu="main-menu" ></ion-menu-button>
+    </ion-buttons>
+      
+    <!--
+       <button (click)="goProfil()" slot="end">
+      <ion-thumbnail slot="end"> 
         <img src="{{imUser}}" title="Go to profil"> 
       </ion-thumbnail>
     </button>
+    -->
      <br><br><br>
   <!-- Default Searchbar -->
   <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" 

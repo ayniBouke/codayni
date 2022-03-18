@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/User';
-import { UserService } from '../services/user.service';
-
+import { UserService } from '../services/user.service'; 
 import { environment } from 'src/environments/environment';
 import { cfaSignIn, cfaSignInPhone, cfaSignInPhoneOnCodeReceived, cfaSignInPhoneOnCodeSent } from 'capacitor-firebase-auth';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { Media } from '../models/Media';
 import { MediaService } from '../services/media.service';
+
+import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Camera } from '@ionic-native/Camera/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -41,10 +45,12 @@ export class RegisterPage implements OnInit {
   uploading : boolean ;
   uploaded : boolean ;
   
-  constructor(private userService : UserService,
+  constructor(
+    private userService : UserService,
     private router: Router, 
     private alertCtrl: AlertController,
-    private mediaService : MediaService
+    private mediaService : MediaService,
+    public actionSheetController: ActionSheetController 
     ){ 
       this.uploading = false;
       this.uploaded = false;
@@ -72,20 +78,46 @@ export class RegisterPage implements OnInit {
         this.router.navigate(['/confirm/']);
     
         });
-  }
+    }
 
+    async selectImage() {
+      const actionSheet = await this.actionSheetController.create({
+        header: 'selectImageSource',
+        buttons: [{
+          text: 'loadFromDevice',
+          handler: () => {
+            this.mediaService.getImageFromLibrary(0);
+          }
+        },
+        {
+          text: 'useCamera',
+          handler: () => {
+            this.mediaService.getImageUsingCamera();
+          }
+        },
+        {
+          text: 'cancel',
+          role: 'cancel'
+        }
+        ]
+      });
+      await actionSheet.present();
+    }
+  
+    async addImageToFirebase(){
+      await this.mediaService.uploadIUmage(this.mediaService.captureDataUrl, "Ayni", "avatars").then(mediaData => {
+        console.log("url :", this.mediaService.captureDataUrl);
+      });
+    }
 
-  //Add Img
-  addImg(){
-    console.log("Click Add");
-    
-  }
   onChange($event){
+    console.log("Ent =========== ", $event);
+    
     this.slectFile = $event.target.files;
-    console.log("Get File : ", this.slectFile  );
+    console.log("Get File : ", this.slectFile);
     
   }
-  async uploadImage(file) : Promise<any> { 
+  async uploadImage(file) { 
     console.log("Name file ", file[0].name);
     console.log(" file ", file[0]);
     let ext = file[0].name.split('.').pop();
@@ -176,6 +208,32 @@ export class RegisterPage implements OnInit {
     //this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
   }
 
+  async addNewMedia(idnt : string){ 
+    this.uploading = true;
+    await this.addImageToFirebase().then(
+      data => {
+        console.log("Type File : ", this.typeFile(this.slectFile));
+        console.log("Url data : ", data); 
+        this.media.name = this.mediaService.nameFile;
+        this.media.link = this.mediaService.pictureLink;
+        //this.media.type = this.typeFile(this.slectFile);
+        console.log("Link ", this.media.link);
+        
+        //this.media.path = data;
+        var result = this.mediaService.AddMediaByIdUser(this.media, idnt)
+        if(result != null){
+          console.log("this.mediaService.AddMedia(this.media) " , result);
+          this.uploaded = true;
+          this.uploading = false;
+        }
+        this.uploaded = true;
+      },
+      err =>{
+        this.uploading = false;
+        this.uploaded = false;
+      }
+    );
+  }
  async login(form){
     this.form = {
       serverId : 1000,
@@ -207,7 +265,12 @@ export class RegisterPage implements OnInit {
           this.userService.register(this.form).subscribe(
             result => { 
               this.userService.identification = form.value['identifiant'];
-              this.addMedia(this.userService.identification);
+              this.mediaService.uploadIUmage(this.mediaService.captureDataUrl, "Ayni", "pickters").then(mediaData => {
+                console.log("url :", this.mediaService.captureDataUrl);
+                this.addNewMedia(form.value['identifiant']);
+              });
+              
+              //this.addMedia(this.userService.identification);
               console.log(result);
               this.form = form.value;
               console.log("Form ", this.form);

@@ -57,6 +57,12 @@ export class UserService {
       }
     )
   }
+  logOut(){
+    this.authentication.isAuthenticated = false;
+    //localStorage.setItem('token', '');
+    localStorage.setItem('isLoggedIn','FALSE');
+  }
+
   async login(login: string, password: string) {
     //this.getUser(login);
     console.log("login : " + login);

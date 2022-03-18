@@ -104,8 +104,8 @@ export class RegisterPage implements OnInit {
       await actionSheet.present();
     }
   
-    async addImageToFirebase(){
-      await this.mediaService.uploadIUmage(this.mediaService.captureDataUrl, "Ayni", "avatars").then(mediaData => {
+    async addImageToFirebase(ident){
+      await this.mediaService.uploadIUmage(this.mediaService.captureDataUrl, "Ayni", "avatars", ident).then(mediaData => {
         console.log("url :", this.mediaService.captureDataUrl);
       });
     }
@@ -208,9 +208,9 @@ export class RegisterPage implements OnInit {
     //this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
   }
 
-  async addNewMedia(idnt : string){ 
+  async addNewMedia(){ 
     this.uploading = true;
-    await this.addImageToFirebase().then(
+    await this.addImageToFirebase('').then(
       data => {
         console.log("Type File : ", this.typeFile(this.slectFile));
         console.log("Url data : ", data); 
@@ -219,14 +219,21 @@ export class RegisterPage implements OnInit {
         //this.media.type = this.typeFile(this.slectFile);
         console.log("Link ", this.media.link);
         
-        //this.media.path = data;
-        var result = this.mediaService.AddMediaByIdUser(this.media, idnt)
-        if(result != null){
-          console.log("this.mediaService.AddMedia(this.media) " , result);
-          this.uploaded = true;
-          this.uploading = false;
-        }
-        this.uploaded = true;
+        /**
+         * //this.media.path = data;
+        this.mediaService.AddMediaByIdUser(this.media, idnt).then(
+          reslt => {
+            console.log("this.mediaService.AddMedia(this.media) " , reslt);
+            this.uploaded = true;
+            this.uploading = false;
+          },
+          err =>{
+            this.uploading = false;
+            this.uploaded = false;
+          }
+        );
+         */
+         
       },
       err =>{
         this.uploading = false;
@@ -235,6 +242,7 @@ export class RegisterPage implements OnInit {
     );
   }
  async login(form){
+    //await this.addNewMedia();
     this.form = {
       serverId : 1000,
       firstName : form.value['firstName'],
@@ -247,7 +255,7 @@ export class RegisterPage implements OnInit {
       modificationDate : null ,
       isActivated : false ,
       settingServerId : 5, 
-      //media : this.returnMedia(),
+      //media : this.mediaService.media,
       mediaServerId : null,
       type: 0,
       userLoginType: 1
@@ -265,9 +273,10 @@ export class RegisterPage implements OnInit {
           this.userService.register(this.form).subscribe(
             result => { 
               this.userService.identification = form.value['identifiant'];
-              this.mediaService.uploadIUmage(this.mediaService.captureDataUrl, "Ayni", "pickters").then(mediaData => {
+              this.mediaService.uploadIUmage(this.mediaService.captureDataUrl, "Ayni", "pickters", form.value['identifiant']).then(mediaData => {
                 console.log("url :", this.mediaService.captureDataUrl);
-                this.addNewMedia(form.value['identifiant']);
+               // this.addNewMedia(form.value['identifiant']);
+               //this.mediaService.updateMedia('rrr')
               });
               
               //this.addMedia(this.userService.identification);

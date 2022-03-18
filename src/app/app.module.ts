@@ -27,7 +27,7 @@ import { Camera } from '@ionic-native/Camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 export const config = {
-  serviceBase: "http://192.168.43.35:1007/",
+  serviceBase: "http://192.168.1.200:1007/",
   clientId: 'market-place',
   clientSecret: 'Hmd123'
 }

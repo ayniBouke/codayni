@@ -21,6 +21,7 @@ export class MediaService {
   public pictureLink: any = '';
   public lisence: Media = new Media();
   public avatar: Media = new Media();
+  public media: Media = new Media();
 
   constructor(private http : HttpClient, 
     private userService : UserService,
@@ -99,8 +100,7 @@ export class MediaService {
 
   //Media
   
-  uploadIUmage(captureDataUrl, name, firebaseStorageFile) {
-
+  uploadIUmage(captureDataUrl, name, firebaseStorageFile, ident) { 
 
     return new Promise((resolve, reject) => {
       let storageRef = firebase.storage().ref();
@@ -114,13 +114,15 @@ export class MediaService {
         console.log(snapshot);
 
         // Do something here when the data is succesfully uploaded!
-        this.nameFile = snapshot.ref.name;
+        //this.nameFile = snapshot.ref.name;
         snapshot.ref.getDownloadURL().then((downloadURL) => {
           console.log('image url : ');
 
           console.log(downloadURL);
           this.pictureLink = downloadURL;
-
+          this.media.name = snapshot.ref.name;
+          this.media.link = downloadURL.toString();
+          this.createMediaObject(this.media, ident);
           resolve(downloadURL);
 
         });
@@ -134,7 +136,6 @@ export class MediaService {
 
   getImageFromLibrary(sourceType) {
 
-
     const cameraOptions: CameraOptions = {
       quality: 100,
       targetHeight: 600,
@@ -142,7 +143,7 @@ export class MediaService {
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      sourceType: sourceType
+      sourceType:sourceType
     };
     this.camera.getPicture(cameraOptions)
       .then((captureDataUrl) => {
@@ -179,17 +180,30 @@ export class MediaService {
       });
   }
 
-
-  createMediaObject(media: Media) {
-
-
+  createMediaObject(media: Media, identifiant:string) { 
     console.log(media);
     return new Promise((resolve, reject) => {
       console.log('start creating media object...');
-      this.httpClient.post(config.serviceBase + "api/medias/register", media).subscribe((response) => {
+      this.httpClient.post(config.serviceBase + "api/medias/add", media).subscribe((response : Media) => {
         console.log('response = ');
         this.lisence = response as Media;
-
+        this.userService.getUserByIdent(identifiant).subscribe(
+          (user : User) => {
+            console.log("Get user  ", user) 
+            console.log("Media   ", response) 
+            //user.lastName = user.lastName + " updated";
+            //user.media = media;
+            user.mediaServerId = 2045 // response.serverId;
+            //user.mediaServerId = 18;
+            this.userService.update(user).subscribe(
+              upUser => console.log("User updated ", upUser)  ,
+              err => console.log("User not update err ", err) 
+            );
+          },
+          err => {
+            console.log("Get user err ", err)  
+          }
+        )
         resolve(response);
 
       }, (err) => {
@@ -204,9 +218,7 @@ export class MediaService {
   }
 
 
-  updateMedia(media: Media) {
-
-
+  updateMedia(media: Media) { 
     console.log(media);
     return new Promise((resolve, reject) => {
       this.httpClient.post(config.serviceBase + "api/medias/updateMedia", media).subscribe((response) => {

@@ -298,28 +298,24 @@ export class RegisterPage implements OnInit {
 
 
   phoneAuth(number: string) {
-      var phone=`+222${number}`;
-      cfaSignIn('phone', { phone: phone }).subscribe(data => {
-        console.log(data);
-        
-      });
+    var phone=`+222${number}`;
+    cfaSignIn('phone', { phone: phone }).subscribe(data => {
+      console.log(data);
+      
+    });
   }
-
-  
-
-
-
+ 
   sendPhone(nbr) {
     nbr =`+222${nbr}`;
     console.log('Attempting to send phone number: ' + nbr);
     cfaSignIn('phone', { phone : nbr }).subscribe(
         user => {
           
-            console.log(user.phoneNumber)
-            console.log('Number: ' + nbr + ' sent successfully'),
-                cfaSignInPhoneOnCodeSent().subscribe(
-                    verificationId => console.log('Verification code received: ' + verificationId)
-                );
+          console.log(user.phoneNumber)
+          console.log('Number: ' + nbr + ' sent successfully'),
+            cfaSignInPhoneOnCodeSent().subscribe(
+              verificationId => console.log('Verification code received: ' + verificationId)
+            );
         }
     );
   }

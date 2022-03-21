@@ -193,7 +193,7 @@ export class MediaService {
             console.log("Media   ", response) 
             //user.lastName = user.lastName + " updated";
             //user.media = media;
-            user.mediaServerId = 2045 // response.serverId;
+            user.mediaServerId = this.lisence.serverId;  //2047 // response.serverId;
             //user.mediaServerId = 18;
             this.userService.update(user).subscribe(
               upUser => console.log("User updated ", upUser)  ,

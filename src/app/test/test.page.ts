@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormControl, FormGroup, FormControlName } from '@angular/forms';
-import { Capacitor } from '@capacitor/core';
-import { Directory, Filesystem } from '@capacitor/filesystem';
-import { Platform } from '@ionic/angular';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Validators, FormControl, FormGroup, FormControlName } from '@angular/forms'; 
+import { ActionSheetController, AlertController, Platform } from '@ionic/angular'; 
 import { cfaSignIn, cfaSignInPhone, cfaSignInPhoneOnCodeReceived, cfaSignInPhoneOnCodeSent } from 'capacitor-firebase-auth';
  
+
+import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Camera } from '@ionic-native/Camera/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+
 //import { FirebaseStorage } from 'angularfire2';
 import * as firebase from 'firebase';
 import { Media } from '../models/Media';
 import { MediaService } from '../services/media.service';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-test',
@@ -43,10 +48,14 @@ export class TestPage implements OnInit {
   uploaded : boolean ;
 
   myPhoto ;
-  constructor(
+  constructor( 
+    public camera: Camera,
+    private platform : Platform, 
+    private userService : UserService,
+    private router: Router, 
+    private alertCtrl: AlertController,
     private mediaService : MediaService,
-    private platform : Platform ,
-    private camera:Camera
+    public actionSheetController: ActionSheetController 
     ) { 
       this.uploading = false;
       this.uploaded = false;
@@ -59,6 +68,58 @@ export class TestPage implements OnInit {
     )
   }
   
+  async selectImage() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'selectImageSource',
+      buttons: [{
+        text: 'loadFromDevice',
+        handler: () => {
+          this.mediaService.getImageFromLibrary(0); 
+        }
+      },
+      {
+        text: 'useCamera',
+        handler: () => {
+          this.mediaService.getImageUsingCamera(); 
+        }
+      },
+      {
+        text: 'cancel',
+        role: 'cancel',
+        
+      }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  async addImageToFirebase(){
+    this.uploading = true;
+    await this.mediaService.updateIUmage(this.mediaService.captureDataUrl, "Ayni", "pickters").then(
+      mediaData => {
+      console.log("url :", this.mediaService.captureDataUrl);
+      this.uploading = false;
+      this.uploaded = true;
+    },
+    err => {
+      this.uploading = false 
+    }
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   async selectPhoto() {
     await this.camera.getPicture(this.options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI

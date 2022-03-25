@@ -134,6 +134,50 @@ export class MediaService {
     });
   }
 
+  updateIUmage(captureDataUrl, name, firebaseStorageFile) { 
+
+    return new Promise((resolve, reject) => {
+      let storageRef = firebase.storage().ref();
+      console.log('start uploading image');
+      // Create a timestamp as filename
+      const filename = name + Math.floor(Date.now());
+      // Create a reference to 'images/todays-date.jpg'
+      const imageRef = storageRef.child(`${firebaseStorageFile}/${filename}.jpg`);
+      imageRef.putString(captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot) => {
+        console.log('Image has been uploaded successfully');
+        console.log(snapshot);
+
+        // Do something here when the data is succesfully uploaded!
+        //this.nameFile = snapshot.ref.name;
+        snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log('image url : ');
+
+          console.log(downloadURL);
+          this.pictureLink = downloadURL;
+          this.media.name = snapshot.ref.name;
+          this.media.link = downloadURL.toString();
+          this.userService.getUserByIdent(this.userService.identification).subscribe(
+            (user : User) => {
+              this.getMedia(user.mediaServerId).subscribe(
+                media => {
+                  media.link = this.pictureLink;
+                  this.updateMedia(media);
+                }
+              )
+            }
+          )
+          resolve(downloadURL);
+
+        });
+      }, (err) => {
+        console.log('error uploading image');
+        reject(err);
+
+      });
+    });
+  }
+
+
   getImageFromLibrary(sourceType) {
 
     const cameraOptions: CameraOptions = {
@@ -221,7 +265,7 @@ export class MediaService {
   updateMedia(media: Media) { 
     console.log(media);
     return new Promise((resolve, reject) => {
-      this.httpClient.post(config.serviceBase + "api/medias/updateMedia", media).subscribe((response) => {
+      this.httpClient.post(config.serviceBase + "api/medias/add", media).subscribe((response) => {
         resolve(response);
         this.avatar = response as Media;
       }, (err) => {

@@ -28,6 +28,7 @@ export class LoginPage implements OnInit {
 
 
   form : any;
+  
   ngOnInit() {
     var str = "hgfhtn"; 
     var a = str.search("fhk")

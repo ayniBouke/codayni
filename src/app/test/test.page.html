@@ -16,42 +16,36 @@
     <ion-grid>
       <ion-row color="primary" justify-content-center>
       </ion-row>
-
+      
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <div class="text-center">
-          <h1>Upload Image</h1>
-        </div>
-        <div padding> 
-          <ion-row>
-            <ion-col>
-              <ion-input name="image" type="file" (change)="onChange($event)" placeholder="upload file " ngModel required>
-               
-              </ion-input>
-            </ion-col>
-          </ion-row>
-        </div>
-        <div  *ngIf="!uploading" padding>
-          <ion-button size="large" type="submit" [disabled]="form.invalid" color="success" expand="block">
+        <ion-card-subtitle>
+          <div class="flex">
+            <div class="img-box">
+              <img *ngIf="this.mediaService.captureDataUrl" src="{{this.mediaService.captureDataUrl}}" alt="" srcset="">
+              <div><img [hidden]="!this.mediaService.showIcon" src="../../assets/images/userIm.png">
+                <div class="camera" slot="end">
+                  <ion-icon name="camera" (click)="selectImage()"></ion-icon>
+                </div></div>
+              
+            </div>
+            
+          </div>
+        </ion-card-subtitle>
+
+      <!--  <div *ngIf="!uploading" padding>
+          <ion-button size="large" type="submit" [disabled]="uploaded" color="success" expand="block" (click)="addImageToFirebase()">
             Upload
           </ion-button>
         </div> 
-
-        <div *ngIf="uploading && !uploaded">
+      -->
+      <ion-button size="large" [disabled]="uploading" type="submit" color="success" expand="block" (click)="addImageToFirebase()">
+        Upload
+      </ion-button>
+        <div *ngIf="uploading">
           <ion-progress-bar value="0.3" buffer="0.7"></ion-progress-bar>
         </div>
       </ion-col>
     </ion-grid>
   </form> 
- 
-  <div *ngIf="uploaded" >
-    <img src="{{imgUrl}}" >
-  </div>
-
-  <!--Img-->
-  <button class="im" (click)="selectPhoto()">
-    Get Image
-   </button> 
-   <div >
-    <img src="{{imgUrl}}" >
-  </div>
+   
 </ion-content>

@@ -30,8 +30,9 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 export const config = {
-  serviceBase: "http://192.168.1.200:1007/",
+  serviceBase: "http://192.168.1.230:1007/",
   clientId: 'market-place',
   clientSecret: 'Hmd123'
 }
@@ -40,10 +41,11 @@ export const config = {
   
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, FormsModule, IonicModule.forRoot(),ReactiveFormsModule, AppRoutingModule, HttpClientModule
+  imports: [BrowserModule, FormsModule, IonicModule.forRoot(),ReactiveFormsModule, AppRoutingModule, HttpClientModule,
+    
   ], 
   providers: [  
-    Camera, File, ImagePicker, SplashScreen,StatusBar,
+    Camera, File, ImagePicker, SplashScreen,StatusBar, Geolocation,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

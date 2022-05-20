@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { DetailsPage } from '../details/details.page';
 import { User } from '../models/User';
@@ -31,10 +31,18 @@ export class ProfilPage implements OnInit {
   };
 
   imUser;
-  constructor(private serviceUser : UserService,  private router : Router, 
+  id ;
+  constructor(
+    private serviceUser : UserService,  
+    private router : Router, 
     private alertCtrl: AlertController,
-    private mediaService : MediaService
-    ) { }
+    private mediaService : MediaService,
+    private activateRoute : ActivatedRoute
+    ) { 
+      this.activateRoute.params.subscribe(
+        par => this.id = par.id
+      );
+    }
 
   ngOnInit() {
     if(this.serviceUser.identification){

@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button>
+      </ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="text-end">
+    <button class="btn btn-primary" ion-button type="submit" (click)="NewUser()"><ion-icon name="add-sharp"></ion-icon>New User</button>
+    
+  </div>
+  <br>
+
+
+  <h1 class="text-center"> <b>List des Users</b></h1>
+  <br>
+  <div class="d-flex justify-content-center" *ngIf="!DataLoaded">
+    <div class="spinner-grow" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  
+  <ion-grid *ngFor="let u of this.userService.dataUsers">
+    <ion-row>
+      <ion-col>
+        <b> {{u.firstName}}  {{u.lastName}}</b> 
+      </ion-col>
+      <ion-col>
+        <ion-button color="success" (click)="UpdateUser(u.serverId)"> <ion-icon name="reader-outline"></ion-icon></ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="danger" (click)="DeleteUser(u.serverId)"><ion-icon name="trash-outline"></ion-icon></ion-button>
+      </ion-col>
+    </ion-row>
+    <hr>
+  </ion-grid>
+  <!-- <div *ngFor="let d of this.serviceEmployee.employees">
+    <b> Id : </b> {{d.ID}} <br>
+    <b> Title : </b> {{d.FirstName}} <br>
+    
+    <b> Date Creation:  </b> {{d.CreationDate | date : "y/MM/dd" }} <br>
+    <b> Date Modification: </b> {{d.ModificationDate | date : "y/MM/dd" }}  <br>
+
+    <div class="row">
+      <button class="btn btn-success" ion-button type="submit" (click)="UpdateEmployee(d.id)">Update Employee</button>
+      <button class="btn btn-danger" ion-button type="submit" (click)="DeleteEmployee(d.id)">Delete Employee</button>
+    </div>
+    <hr color="green">
+  </div> -->
+  <div *ngIf="!this.userService.dataUsers" class="alert alert-warning" role="alert">
+      Aucun user {{myInput}}
+  </div>
+
+  <!-- <button class="btn btn-light" ion-button type="submit" (click)="locale()">Locale</button> -->
+
+</ion-content>
+

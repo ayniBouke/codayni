@@ -20,6 +20,7 @@ export class ResetPasswordPage implements OnInit {
   constructor(private userService : UserService,
     private router: Router, 
     private alertCtrl: AlertController) {
+      
     cfaSignInPhoneOnCodeSent().subscribe(
       verificationId => 
       {
@@ -35,6 +36,7 @@ export class ResetPasswordPage implements OnInit {
       this.router.navigate(['/reset-password/']);
   
       });
+       
    }
 
   ngOnInit() {
@@ -63,8 +65,7 @@ export class ResetPasswordPage implements OnInit {
   );
     console.log('Attempting to send phone number: ' + nbr);
     cfaSignIn('phone', { phone : nbr }).subscribe(
-        user => {
-          
+        user => { 
             console.log(user.phoneNumber)
             console.log('Number: ' + nbr + ' sent successfully'),
                 cfaSignInPhoneOnCodeSent().subscribe(

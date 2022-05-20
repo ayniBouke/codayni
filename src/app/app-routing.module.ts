@@ -35,7 +35,7 @@ const routes: Routes = [
     loadChildren: () => import('./cofirm/cofirm.module').then( m => m.CofirmPageModule)
   },
   {
-    path: 'profil',
+    path: 'profil/:id',
     loadChildren: () => import('./profil/profil.module').then( m => m.ProfilPageModule)
   },
   {
@@ -58,6 +58,23 @@ const routes: Routes = [
     path: 'upload-image2',
     loadChildren: () => import('./pages/upload-image/upload-image.module').then( m => m.UploadImagePageModule)
   },
+  {
+    path: 'locations',
+    loadChildren: () => import('./pages/locations/locations.module').then( m => m.LocationsPageModule)
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./pages/users/users.module').then( m => m.UsersPageModule)
+  },  {
+    path: 'mytest',
+    loadChildren: () => import('./pages/mytest/mytest.module').then( m => m.MytestPageModule)
+  },
+  {
+    path: 'mydashboard',
+    loadChildren: () => import('./pages/mydashboard/mydashboard.module').then( m => m.MydashboardPageModule)
+  },
+
+
 
  
 ];

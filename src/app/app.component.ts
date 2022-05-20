@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular'; 
 import * as firebase from 'firebase'; 
+ 
 import { environment } from 'src/environments/environment';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';

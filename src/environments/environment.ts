@@ -1,8 +1,9 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
-export const environment = {
+ 
+export const environment = { 
+  googleMapsAPIKey: 'AIzaSyCHrvLFAT2xXmHEADf6NNwlR9dyJVmXWvI',
   firebaseConfig : {
     apiKey: "AIzaSyDiBA-k85PiI55zaQryizERD8cbsNBVjKY",
     authDomain: "smpnt-projects.firebaseapp.com",

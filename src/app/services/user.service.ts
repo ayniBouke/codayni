@@ -26,16 +26,26 @@ export class UserService {
   identification : string;
  
 
+  userIsAdmin : boolean = false;
+  dataUsers : User[] = [];
+
   constructor(private httpClient : HttpClient, private router : Router) { 
     console.log("User Tkn ============ ", localStorage.getItem('isLoggedIn'));
     
   }
   
+  getAllUsers(){
+    return this.httpClient.get<User[]>(config.serviceBase+'api/users/');
+  }
+
   register(user : User){
     return this.httpClient.post(config.serviceBase + 'api/users/' , user);
   }
   update(user : User){
     return this.httpClient.post(config.serviceBase + 'api/users/update/' , user);
+  }
+  deleteUser(id : number){
+    return this.httpClient.delete(config.serviceBase + 'api/users/' +id);
   }
   put(user : any){
     return this.httpClient.put(config.serviceBase + 'api/users/restPassword/' , user);
@@ -70,7 +80,10 @@ export class UserService {
     console.log("config : " + config);
 
     this.getUserByIdent(login).subscribe(
-      (user : any) => {
+      (user : User) => {
+        this.userIsAdmin = user.userLoginType == 6 ? true : false;
+        console.log("User Login type ", this.userIsAdmin);
+        
         if(!user.isActivated){
           this.router.navigate(['/confirm/'])
         }

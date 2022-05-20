@@ -1,13 +1,17 @@
 <ion-app>
+
   <ion-menu menuId="main-menu" contentId="main">
-    <ion-header>
+    <ion-header class="ion-no-border">
       <ion-toolbar>
-        
-        <ion-title>Menu</ion-title>
+        <ion-buttons class="mt-5 pl-5">
+          <img slot="start" class="image" src="../assets/images/profil.png">
+          <ion-title>ayni@gmail.com </ion-title>
+        </ion-buttons>
+       
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list>
+      <ion-list class="mt-3">
         <ion-menu-toggle>
           <ion-item routerLink="/details"> 
             <ion-icon name="home-outline" slot="start"></ion-icon>
@@ -21,16 +25,19 @@
             <ion-label>Profil</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        
-        <ion-item >
-          <ion-icon name="log-out-outline" slot="start"></ion-icon>
-          <ion-label>LogOut</ion-label>
-        </ion-item>
+        <ion-menu-toggle>
+          <ion-item >
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            <ion-label>LogOut</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
       </ion-list>
     </ion-content>
   </ion-menu>
-
+  
+  
   <ion-router-outlet id="main">
     
   </ion-router-outlet>
 </ion-app>
+ 

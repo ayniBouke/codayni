@@ -1,0 +1,30 @@
+.divtest{
+    padding-top: -20px;
+    width: auto;
+    height: 300px;
+    background-color: cornflowerblue;
+
+   
+}
+.image{
+    width: 20;
+    height: 20;
+    border-radius: 200px;
+     
+}
+
+.div2{
+    border-radius: 30px;
+    padding-top: -20px;
+    width: auto;
+    height: 300px;
+    background-color: white;
+
+    .image2{
+        width: 20;
+        height: 20;
+        border-radius: 200px; 
+        margin-top: -80px;
+        margin-left: 80px;
+    }
+}

@@ -1,0 +1,73 @@
+<ion-content>
+  <div style="background-color: rgb(240, 240, 240); height: 100%;">
+    
+    <div class="bar">
+      <ion-buttons slot="start" style="padding-top:10%" class="icone">
+        <ion-menu-button menu="main-menu" ></ion-menu-button>
+        School
+        <!-- <ion-button slot="end" (click)="showUsers()"  color="blue">School</ion-button> -->
+        <ion-icon style="margin-left:50%" slot="end" name="notifications"></ion-icon>
+      </ion-buttons>
+      
+    </div>
+    
+    <div class="div2">  
+      <ion-slides [options]="slideOpts">
+        <ion-slide>
+          <img class="image" src="../../../assets/images/student1.jpg" alt="slide-1" />
+        </ion-slide>
+        <ion-slide>
+          <img class="image" src="../../../assets/images/student2.jpg" alt="slide-2" />
+        </ion-slide>
+        <ion-slide>
+          <img class="image" src="../../../assets/images/student3.jpg" alt="slide-3" />
+        </ion-slide>
+      </ion-slides> 
+    </div>
+  
+    <div class="div">
+        
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <h2> Favourite Menu</h2>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="3" offset="0.5" class="ion-align-items-center col" style="border-color: rgb(255, 166, 0);">
+            <ion-icon style="color: rgb(255, 166, 0); zoom:3" name="today-outline"></ion-icon> 
+          </ion-col>
+          <ion-col size="3" offset="1" class="ion-align-items-center col" style="border-color: yellow;">
+            <ion-icon style="color: yellow; zoom:3" name="calendar-clear-outline"></ion-icon>
+          </ion-col>
+          <ion-col size="3" offset="1" class="ion-align-items-center col" style="border-color: rgb(243, 0, 255);">
+            <ion-icon style="color: rgb(234, 0, 255); zoom:3" name="newspaper-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-row>
+        <ion-col size="3" offset="0.5" class="ion-align-items-center col" style="border-color: blue;">
+          <ion-icon style="color: blue; zoom:3" name="bar-chart-outline"></ion-icon>
+        </ion-col>
+        <ion-col size="3" offset="1" class="ion-align-items-center col" style="border-color: rgb(0, 255, 21);">
+          <ion-icon style="color: rgb(0, 255, 21); zoom:3" name="calculator-outline"></ion-icon>
+        </ion-col>
+        <ion-col size="3" offset="1" class="ion-align-items-center col" style="border-color: rgb(255, 0, 106);">
+          <ion-icon style="color: rgb(255, 0, 106); zoom:3" name="chatbox-ellipses-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+  
+      <div [class]="this.call">
+        <!-- <img class="image" src="../../../assets/images/call.png" alt="slide-3" /> -->
+        <img [class]="this.iconcall" src="../../../assets/images/call2.png" alt="slide-3" (click)="toggle()" /> 
+        <stron style="margin-left: 30%;">Call</stron>
+      </div>
+  <!-- 
+      <div class="nocall">
+        <img class="iconnocall" src="../../../assets/images/call2.png" alt="slide-3" /> 
+        <stron style="margin-left: 30%;">Call</stron>
+      </div> -->
+
+    </div>
+  </div>
+</ion-content>

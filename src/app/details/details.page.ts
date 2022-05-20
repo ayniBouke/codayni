@@ -114,6 +114,11 @@ export class DetailsPage implements OnInit {
     console.log(this.userService.isLogin);
     console.log("ngOnInit");
   }
+  //show users
+  showUsers(){
+    this.router.navigate(["/users/"]);
+  }
+
   goProfil(){
     this.router.navigate(["/profil/"]);
   }

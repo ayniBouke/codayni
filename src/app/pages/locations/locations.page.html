@@ -1,0 +1,20 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="arrow-back-outline" style="zoom:1.5;" (click)="back()"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <agm-map [style.height.px]="height" [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <div style="height: 42px" i>
+      <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true">
+        <agm-info-window [maxWidth]="320">
+          <!-- <h4>{{c.client.firstName}} {{c.client.lastName}}</h4>
+          <h6>{{this.languageService.labelLocalizations[this.labelManagement.consultation]}}
+            {{this.languageService.labelLocalizations[this.labelManagement.aPending]}}</h6> -->
+            voila les informations du marker:  
+        </agm-info-window>
+      </agm-marker>
+    </div>
+  </agm-map>
+</ion-content>

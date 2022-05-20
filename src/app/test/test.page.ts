@@ -3,6 +3,8 @@ import { Validators, FormControl, FormGroup, FormControlName } from '@angular/fo
 import { ActionSheetController, AlertController, Platform } from '@ionic/angular'; 
 import { cfaSignIn, cfaSignInPhone, cfaSignInPhoneOnCodeReceived, cfaSignInPhoneOnCodeSent } from 'capacitor-firebase-auth';
  
+//import { Geolocation } from '@ionic-native/geolocation';
+import { Globalization } from '@awesome-cordova-plugins/globalization/';
 
 import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { Camera } from '@ionic-native/Camera/ngx';
@@ -15,6 +17,8 @@ import { Media } from '../models/Media';
 import { MediaService } from '../services/media.service';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 @Component({
   selector: 'app-test',
@@ -55,8 +59,27 @@ export class TestPage implements OnInit {
     private router: Router, 
     private alertCtrl: AlertController,
     private mediaService : MediaService,
-    public actionSheetController: ActionSheetController 
+    public actionSheetController: ActionSheetController, 
+    private geolocation: Geolocation
     ) { 
+      this.geolocation.getCurrentPosition().then((resp) => {
+        // resp.coords.latitude
+        // resp.coords.longitude
+        console.log('getting location ', resp);
+        console.log('getting location latitude ', resp.coords.latitude);
+        console.log('getting location longitude ', resp.coords.longitude);
+       }).catch((error) => {
+         console.log('Error getting location', error);
+       });
+       
+       let watch = this.geolocation.watchPosition();
+       watch.subscribe((data) => {
+        console.log('getting location Data', data);
+        // data can be a set of coordinates, or an error (if an error occurred).
+        // data.coords.latitude
+        // data.coords.longitude
+       });
+      //
       this.uploading = false;
       this.uploaded = false;
     }
@@ -67,7 +90,7 @@ export class TestPage implements OnInit {
       err => console.log("err ", err)
     )
   }
-  
+   
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
       header: 'selectImageSource',

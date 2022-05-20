@@ -27,7 +27,19 @@ export class MydashboardPage implements OnInit {
 
   toggle(){
     console.log("Toggled"); 
-    this.iconcall = "iconcall"?"iconcalled":"iconcall";
-    this.call = "call"?"called":"call";
+    if(this.iconcall == "iconcall"){
+      this.iconcall = "iconcalled"
+    }
+    else{
+      this.iconcall = "iconcall"
+    }
+    // this.iconcall = "iconcall"?"iconcalled":"iconcall";
+    // this.call = "call"?"called":"call";
+    if(this.call == "call"){
+      this.call = "called"
+    }
+    else{
+      this.call = "call"
+    }
   }
 }

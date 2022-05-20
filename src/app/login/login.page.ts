@@ -108,4 +108,9 @@ export class LoginPage implements OnInit {
     
     );
   }
+
+  goMydashboard(){
+    console.log("go to my dashboard");
+    this.router.navigate(['/mydashboard'])
+  }
 }

@@ -59,7 +59,8 @@
   
       <div [class]="this.call">
         <!-- <img class="image" src="../../../assets/images/call.png" alt="slide-3" /> -->
-        <img [class]="this.iconcall" src="../../../assets/images/call2.png" alt="slide-3" (click)="toggle()" /> 
+        <img *ngIf="this.iconcall != 'iconcalled' " [class]="this.iconcall" src="../../../assets/images/call2.png" (click)="toggle()" /> 
+        <img *ngIf="this.iconcall == 'iconcalled' " [class]="this.iconcall" src="../../../assets/images/cancelcall.png" (click)="toggle()" /> 
         <stron style="margin-left: 30%;">Call</stron>
       </div>
   <!-- 
